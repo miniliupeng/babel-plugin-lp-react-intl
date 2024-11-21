@@ -60,7 +60,7 @@ function chineseSkip(path: NodePath, value: string) {
   }
 }
 
-export default function babelPluginReactIntl(): PluginObj {
+export default function babelPluginReactIntl({ messageKeys = [] }: { messageKeys?: string[] } = {}): PluginObj {
   return {
     visitor: {
       Program(path, state) {
@@ -78,7 +78,7 @@ export default function babelPluginReactIntl(): PluginObj {
         }
 
         // 获取所有中文消息
-        const messageKeys: string[] = [];
+        const fileMessagekeys: string[] = []
         path.traverse({
           "JSXText|StringLiteral"(path) {
             traverseSkip(path);
@@ -88,8 +88,8 @@ export default function babelPluginReactIntl(): PluginObj {
             // console.log("JSXText|StringLiteral", node.value);
 
             const trimmedValue = node.value.trim();
-            if (!messageKeys.includes(trimmedValue))
-              messageKeys.push(trimmedValue);
+            if (!fileMessagekeys.includes(trimmedValue))
+              fileMessagekeys.push(trimmedValue);
           },
           TemplateLiteral(path) {
             traverseSkip(path);
@@ -109,24 +109,27 @@ export default function babelPluginReactIntl(): PluginObj {
             // console.log('TemplateLiteral', value);
 
             const trimmedValue = value.trim();
-            if (!messageKeys.includes(trimmedValue))
-              messageKeys.push(trimmedValue);
+            if (!fileMessagekeys.includes(trimmedValue))
+              fileMessagekeys.push(trimmedValue);
           },
         });
         // console.log(messageKeys);
 
-        if (messageKeys.length > 0) {
+        if (fileMessagekeys.length > 0) {
           // 添加import
           const ast = template.statements(`
           import { ${methodName1} } from 'react-intl';
           import ${methodName2} from '${INTL_FILE_PATH}';
         `)();
           path.node.body.splice(index, 0, ...ast);
+          // 添加 defineMessages
           const messagesAst =
             template.statement(`const ${INTL_MESSAGES} = ${methodName1}({
-              ${messageKeys.map((key) => `'${key}': { id: "${key}" }`).join(",")}
+              ${fileMessagekeys.map((key) => `'${key}': { id: "${key}" }`).join(",")}
             })`)();
           path.node.body.splice(index + 2, 0, messagesAst);
+          // 合并到全局的 messageKeys 中
+          messageKeys.push(...fileMessagekeys);
         }
       },
 
