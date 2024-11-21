@@ -60,7 +60,7 @@ function chineseSkip(path: NodePath, value: string) {
   }
 }
 
-export default function babelPluginReactIntl({ messageKeys = [] }: { messageKeys?: string[] } = {}): PluginObj {
+export default function babelPluginLpReactIntl({ messageKeys = [] }: { messageKeys?: string[] } = {}): PluginObj {
   return {
     visitor: {
       Program(path, state) {

@@ -1,10 +1,11 @@
 {
   "name": "babel-plugin-lp-react-intl",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "type": "module",
+  "types": "dist/index.d.ts",
   "files": ["dist", "package.json", "README.md"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
