@@ -1,4 +1,4 @@
 import { PluginObj } from "@babel/core";
-export default function babelPluginReactIntl({ messageKeys }?: {
+export default function babelPluginLpReactIntl({ messageKeys }?: {
     messageKeys?: string[];
 }): PluginObj;
