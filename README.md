@@ -1,0 +1,1 @@
+babel插件  自动转换文件中的中文使用 react-intl 的方式
