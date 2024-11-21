@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-lp-react-intl",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -9,8 +9,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["react-intl", "babel"],
+  "author": "miniliupeng",
+  "repository": "https://github.com/miniliupeng/babel-plugin-lp-react-intl.git",
+  "homepage": "https://github.com/miniliupeng/babel-plugin-lp-react-intl.git",
   "license": "ISC",
   "devDependencies": {
     "@types/babel__core": "^7.20.5",
