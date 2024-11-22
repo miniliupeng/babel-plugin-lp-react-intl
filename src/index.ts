@@ -80,6 +80,17 @@ export default function babelPluginLpReactIntl({ messageKeys = [] }: { messageKe
         // 获取所有中文消息
         const fileMessagekeys: string[] = []
         path.traverse({
+          TSEnumDeclaration(path) {
+            // 如果是 const enum，遍历枚举成员
+            path.node.members.forEach((member) => {
+              const key = member.id.name || member.id.value;
+              chineseSkip(path, key); // 自定义函数，检查是否是中文并跳过
+              if (path.node.skip) return;
+              const trimmedValue = key.trim();
+              if (!fileMessagekeys.includes(trimmedValue))
+                fileMessagekeys.push(trimmedValue);
+            });
+          },
           "JSXText|StringLiteral"(path) {
             traverseSkip(path);
             const node = path.node as StringLiteral | JSXText;
